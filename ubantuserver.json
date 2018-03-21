@@ -1,0 +1,470 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworks_MYvNET_name": {
+            "defaultValue": "MYvNET",
+            "type": "String"
+        },
+        "networkInterfaces_myNic_name": {
+            "defaultValue": "myNic",
+            "type": "String"
+        },
+        "virtualMachines_uabantuVM_name": {
+            "defaultValue": "uabantuVM",
+            "type": "String"
+        },
+        "publicIPAddresses_mypublicdns599863748_name": {
+            "defaultValue": "mypublicdns599863748",
+            "type": "String"
+        },
+        "storageAccounts_mrdubantuuban032113570_name": {
+            "defaultValue": "mrdubantuuban032113570",
+            "type": "String"
+        },
+        "publicIPAddresses_mypublicdns1102799337_name": {
+            "defaultValue": "mypublicdns1102799337",
+            "type": "String"
+        },
+        "subnets_mySubnet_name": {
+            "defaultValue": "mySubnet",
+            "type": "String"
+        },
+        "networkSecurityGroups_myNetworkSecurityGroup_name": {
+            "defaultValue": "myNetworkSecurityGroup",
+            "type": "String"
+        },
+        "securityRules_myNetworkSecurityGroupRuleSSH_name": {
+            "defaultValue": "myNetworkSecurityGroupRuleSSH",
+            "type": "String"
+        },
+        "virtualMachines_uabantuVM_id": {
+            "defaultValue": "/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Compute/disks/uabantuVM_OsDisk_1_24b3527e8df74ce7bf34d8b9a96ef73c",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Compute/virtualMachines/uabantuVM'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_uabantuVM_name')]",
+            "apiVersion": "2017-03-30",
+            "location": "southeastasia",
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D1"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "16.04-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('virtualMachines_uabantuVM_name'),'_OsDisk_1_24b3527e8df74ce7bf34d8b9a96ef73c')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Standard_LRS",
+                            "id": "[parameters('virtualMachines_uabantuVM_id')]"
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_uabantuVM_name')]",
+                    "adminUsername": "azureuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/azureuser/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAgaKuhbhA+ZqiD+PK+22HVN5cJM3bIFXJZYQxyq31cLFwk7Nn6R2O5l2YsY32lsm8QuQpBAwtrBMFkbIC01E7ebZqhF3is6/ml7CZZF74dGkK1AhVf70IGlTaieIuSgfPDTrZpxGHv4iwCQJUF00R1JIJ5giUHpsuWhRzUIseDE30fRqQ3aCCMHKsRaGW3/u8wdWCQGrEr8614UN9cTlVJCR1w7FL95gHLqdixYdzrHlVAYiCY7+x4uiB6JIs3u50/lG2b3RrqWoo7jQtyIG6+z+dm5FGKFdNFJuNeRNf+/7vxwMoYhonnCluSiNcVGjGYcn39UU0qeNjKhU68vHLNQ=="
+                                }
+                            ]
+                        }
+                    },
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_myNic_name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat('https', '://', parameters('storageAccounts_mrdubantuuban032113570_name'), '.blob.core.windows.net', '/')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_myNic_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_mrdubantuuban032113570_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Network/networkInterfaces/myNic'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_myNic_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "southeastasia",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "0680d33e-848e-40d8-b176-dd12f5c7c6e8",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "etag": "W/\"2c62288a-c937-4971-bc9b-45c04adf73b7\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAddress": "192.168.1.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_mypublicdns599863748_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_MYvNET_name'), parameters('subnets_mySubnet_name'))]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": [],
+                    "internalDomainNameSuffix": "ahpsv0kbrrnunbv3wyeq5ceekb.ix.internal.cloudapp.net"
+                },
+                "macAddress": "00-0D-3A-A2-B7-88",
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_myNetworkSecurityGroup_name'))]"
+                },
+                "primary": true,
+                "virtualMachine": {
+                    "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_uabantuVM_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_mypublicdns599863748_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_MYvNET_name'), parameters('subnets_mySubnet_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_myNetworkSecurityGroup_name'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_uabantuVM_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_myNetworkSecurityGroup_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "southeastasia",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "2e6d68a2-fca1-493b-aae7-99a7675c57f4",
+                "securityRules": [
+                    {
+                        "name": "[concat(parameters('networkSecurityGroups_myNetworkSecurityGroup_name'),'RuleSSH')]",
+                        "etag": "W/\"6100933a-684b-404f-8bf2-fe7108b4a250\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ],
+                "defaultSecurityRules": [
+                    {
+                        "name": "AllowVnetInBound",
+                        "etag": "W/\"6100933a-684b-404f-8bf2-fe7108b4a250\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowAzureLoadBalancerInBound",
+                        "etag": "W/\"6100933a-684b-404f-8bf2-fe7108b4a250\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from azure load balancer",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllInBound",
+                        "etag": "W/\"6100933a-684b-404f-8bf2-fe7108b4a250\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all inbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowVnetOutBound",
+                        "etag": "W/\"6100933a-684b-404f-8bf2-fe7108b4a250\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowInternetOutBound",
+                        "etag": "W/\"6100933a-684b-404f-8bf2-fe7108b4a250\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to Internet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllOutBound",
+                        "etag": "W/\"6100933a-684b-404f-8bf2-fe7108b4a250\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all outbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Network/publicIPAddresses/mypublicdns1102799337'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Basic"
+            },
+            "name": "[parameters('publicIPAddresses_mypublicdns1102799337_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "southeastasia",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "4e0a80f4-a148-4181-9d47-6e7aa257fbd0",
+                "ipAddress": "20.184.11.143",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Static",
+                "idleTimeoutInMinutes": 4
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Network/publicIPAddresses/mypublicdns599863748'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Basic"
+            },
+            "name": "[parameters('publicIPAddresses_mypublicdns599863748_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "southeastasia",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "11abec1c-b69c-4ff2-b555-457faad35ee9",
+                "ipAddress": "20.184.12.229",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Static",
+                "idleTimeoutInMinutes": 4
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Network/virtualNetworks/MYvNET'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_MYvNET_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "southeastasia",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "e92adf01-8c41-465b-86bd-b6090f888451",
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "192.168.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "mySubnet",
+                        "etag": "W/\"ea069b61-4519-4e48-a86d-b78085696c2c\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "192.168.1.0/24",
+                            "serviceEndpoints": []
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false,
+                "enableVmProtection": false
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Storage/storageAccounts/mrdubantuuban032113570'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_GRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_mrdubantuuban032113570_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup/securityRules/myNetworkSecurityGroupRuleSSH'.",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "name": "[concat(parameters('networkSecurityGroups_myNetworkSecurityGroup_name'), '/', parameters('securityRules_myNetworkSecurityGroupRuleSSH_name'))]",
+            "apiVersion": "2017-10-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "destinationPortRange": "22",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1000,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_myNetworkSecurityGroup_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/35cae2fc-e13c-432f-9b2a-bd5a31d9ffde/resourceGroups/ubantu_resourcegroup/providers/Microsoft.Network/virtualNetworks/MYvNET/subnets/mySubnet'.",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "name": "[concat(parameters('virtualNetworks_MYvNET_name'), '/', parameters('subnets_mySubnet_name'))]",
+            "apiVersion": "2017-10-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "192.168.1.0/24",
+                "serviceEndpoints": []
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_MYvNET_name'))]"
+            ]
+        }
+    ]
+}
